@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GTA V Tile Map Viewer (Blip Marker)</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+    }
+    .leaflet-popup-content {
+      font-family: sans-serif;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const center_x = 117.3;
+    const center_y = 172.8;
+    const scale_x = 0.02072;
+    const scale_y = 0.0205;
+
+    const CUSTOM_CRS = L.extend({}, L.CRS.Simple, {
+      projection: L.Projection.LonLat,
+      scale: function (zoom) {
+        return Math.pow(2, zoom);
+      },
+      zoom: function (scale) {
+        return Math.log(scale) / Math.LN2;
+      },
+      transformation: new L.Transformation(scale_x, center_x, -scale_y, center_y),
+      infinite: true
+    });
+
+    const map = L.map('map', {
+      crs: CUSTOM_CRS,
+      minZoom: 0,
+      maxZoom: 5,
+      zoom: 3,
+      center: [0, 0],
+      preferCanvas: true
+    });
+
+    L.tileLayer('https://www.gtamap.xyz/mapStyles/styleAtlas/{z}/{x}/{y}.jpg', {
+      tileSize: 256,
+      noWrap: true,
+      minZoom: 0,
+      maxZoom: 5
+    }).addTo(map);
+
+    const markerGroup = L.layerGroup().addTo(map);
+
+    const blips = [
+      [-1078.54, -815.24], [-1339.83, -812.44], [-1401.18, -704.07], [-932.13, -722.13],
+      [-1376.63, -807.15], [-1257.9, -828.11], [-1353.49, 29.14], [-885.32, -1179.88],
+      [-277.2, -1432.59], [121.86, -1541.35], [144.05, -1519.63], [321.6, 378.24],
+      [46.34, 932.02], [-328.2, 1162.86], [-1304.18, -804.52], [-1756.88, -56.02],
+      [-1300.9, 127.9], [-1294.05, 122.33], [-1393.79, 85.18], [-1396.55, -224.82],
+      [-207.8, 126.02], [-1037.24, 153.54], [1060.41, -3169.19], [1083.49, -3162.46],
+      [106.62, -1483.01], [-218.98, -628.8], [-2126.41, 876.12], [1144.57, 1399.57],
+      [6153.58, -335.14], [6235.39, -388.11], [4822.16, 1685.44], [3722.04, 1932.97],
+      [-46.79, -355.45], [-229.52, -1455.39]
+    ];
+
+    const descriptions = [
+      "Kıyafetçi Önü", "Aynı Binanın Tersinde  Bina Önü", "Girişteki Binanın Önünde Merdiven Tarafı",
+      "Benzinlik", "Sırtını Binaya ver Bayrağa bak", "Kalas Çöp Konteynırın Üstü", "Market Önü",
+      "Market/Burgerci Önü", "Benzinlik", "Corleone Malikane İçi", "Corleone Malikane İçi", "Market Önü",
+      "Casino Kapı içi", "Benzinlik Market Önü", "Otopark Alanında Tebeşirle Çizilmiş Karenin İçinde",
+      "Market Önü", "Vanilla Unicorn Önü", "Vanilla Unicorn Önü", "Kıyafetçi Önü",
+      "Çekilmiş Otopark çizgili bariyerin önü", "Kıyafetçi Önü", "ATM Önü", "Kıyafetçi Önü",
+      "Ammu Nation Önü", "Corleone Malikane İçi", "Pırlantacı Önü-İçi", "Ara Sokakta Olması Gerek",
+      "Florhasan Mekanı", "Kilise Giriş Merdiven", "Evin Bahçesinde Kapıya Yakın Barbekü Sandalye var",
+      "Kıyafetçi Önü", "Berber Önü", "Banka Önü", "Kıyafetçi Önü"
+    ];
+
+    const blueIcon = new L.Icon.Default();
+    const redIcon = new L.Icon({
+      iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+
+    blips.forEach(([y, x], index) => {
+      let isRed = false;
+      const blipNumber = index + 1;
+
+      const marker = L.marker([y, x], { icon: blueIcon })
+        .bindPopup(`Blip ${blipNumber}: ${descriptions[index] || ''}<br>X: ${x.toFixed(2)}<br>Y: ${y.toFixed(2)}`)
+        .addTo(markerGroup);
+
+      marker.on('click', () => {
+        isRed = !isRed;
+        marker.setIcon(isRed ? redIcon : blueIcon);
+      });
+    });
+  </script>
+</body>
+</html>
