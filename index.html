@@ -1,23 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PWUC Kredi Kartı (Blip Marker)</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    html, body, #map {
+    html, body {
       height: 100%;
       margin: 0;
-    }
-    .leaflet-popup-content {
       font-family: sans-serif;
+    }
+
+    #map {
+      height: 100%;
+      margin: 0;
+      flex: 1;
+    }
+
+    .leaflet-popup-content {
       font-size: 14px;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #f9f9f9;
+      border-left: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .sidebar img {
+      width: 200px;
+      height: 100px;
+      margin-bottom: 10px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar img:hover {
+      transform: scale(1.02);
     }
   </style>
 </head>
 <body>
-  <div id="map"></div>
+  <div class="container">
+    <div id="map"></div>
+    <div class="sidebar">
+      <!-- 22 resim sıralı şekilde -->
+      <img src="https://i.hizliresim.com/nu4bx5p.png" alt="Resim 1">
+      <img src="https://i.hizliresim.com/sr7f8zi.png" alt="Resim 2">
+      <img src="https://i.hizliresim.com/538tn9y.png" alt="Resim 3">
+      <img src="https://i.hizliresim.com/gifug4j.png" alt="Resim 4">
+      <img src="https://i.hizliresim.com/mfr1hy9.png" alt="Resim 5">
+      <img src="https://i.hizliresim.com/apv6941.png" alt="Resim 6">
+      <img src="https://i.hizliresim.com/n4co3cy.png" alt="Resim 7">
+      <img src="https://i.hizliresim.com/hw9nr8j.png" alt="Resim 8">
+      <img src="https://i.hizliresim.com/nyghqku.png" alt="Resim 9">
+      <img src="https://i.hizliresim.com/tbi70vw.png" alt="Resim 10">
+      <img src="https://i.hizliresim.com/qyokz6t.png" alt="Resim 11">
+      <img src="https://i.hizliresim.com/3fqroq6.png" alt="Resim 12">
+      <img src="https://i.hizliresim.com/85cz8ri.png" alt="Resim 13">
+      <img src="https://i.hizliresim.com/s9xpfwj.png" alt="Resim 14">
+      <img src="https://i.hizliresim.com/5mnte6y.png" alt="Resim 15">
+      <img src="https://i.hizliresim.com/amklbx3.png" alt="Resim 16">
+      <img src="https://i.hizliresim.com/k7uo50t.png" alt="Resim 17">
+      <img src="https://i.hizliresim.com/nbl8mid.png" alt="Resim 18">
+      <img src="https://i.hizliresim.com/4e3ro4m.png" alt="Resim 19">
+      <img src="https://i.hizliresim.com/5pfsj41.png" alt="Resim 20">
+      <img src="https://i.hizliresim.com/mjwat16.png" alt="Resim 21">
+      <img src="https://i.hizliresim.com/6l25kn7.png" alt="Resim 22">
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
@@ -28,12 +91,8 @@
 
     const CUSTOM_CRS = L.extend({}, L.CRS.Simple, {
       projection: L.Projection.LonLat,
-      scale: function (zoom) {
-        return Math.pow(2, zoom);
-      },
-      zoom: function (scale) {
-        return Math.log(scale) / Math.LN2;
-      },
+      scale: zoom => Math.pow(2, zoom),
+      zoom: scale => Math.log(scale) / Math.LN2,
       transformation: new L.Transformation(scale_x, center_x, -scale_y, center_y),
       infinite: true
     });
@@ -56,6 +115,7 @@
 
     const markerGroup = L.layerGroup().addTo(map);
 
+    // Mevcut 34 blip
     const blips = [
       [-1078.54, -815.24], [-1339.83, -812.44], [-1401.18, -704.07], [-932.13, -722.13],
       [-1376.63, -807.15], [-1257.9, -828.11], [-1353.49, 29.14], [-885.32, -1179.88],
@@ -90,15 +150,65 @@
 
     blips.forEach(([y, x], index) => {
       let isRed = false;
-      const blipNumber = index + 1;
-
       const marker = L.marker([y, x], { icon: blueIcon })
-        .bindPopup(`Blip ${blipNumber}: ${descriptions[index] || ''}<br>X: ${x.toFixed(2)}<br>Y: ${y.toFixed(2)}`)
+        .bindPopup(`Blip ${index + 1}: ${descriptions[index]}<br>X: ${x.toFixed(2)}<br>Y: ${y.toFixed(2)}`)
         .addTo(markerGroup);
 
       marker.on('click', () => {
         isRed = !isRed;
         marker.setIcon(isRed ? redIcon : blueIcon);
+      });
+    });
+
+    // 22 özel blip - koordinat ve açıklamaları sen dolduracaksın
+const customBlips = [
+  [2549.340, 2311.341], [-243.257, -821.221], [-295.124, -978.071], [-1453.719,509.023],
+  [-139.635,-762.398], [0,0], [0,0], [2808.542,2692.922],
+  [-999.365,299.355], [6401.613,112.346], [-1032.951,845.331], [2717.174,1866.398],
+  [5599.802,456.217], [5195.726,2238.957], [-5.490,-763.904], [6401.613,112.346],
+  [6285.737,-59.582], [0,0], [0,0], [0,0],
+  [0,0], [0,0]
+];
+
+const customDescriptions = [
+  "3057 Mantar Bölgesi", "7209 Cadde Kaldırımı", "7210 Ara Sokakta", "9060 Cadde Kaldırımı",
+  "7228'deki Kıyafetçinin Karşısı", "Ada'da Tavsiye Edilmez", "Ada'da Tavsiye Edilmez", "3053 Maden Girişinden Devam Et Solunda Konteynır Göreceksin",
+  "8051-8052 Arasındaki Sokakta", "1017-1019 Arası Bina Girişi", "8194 Benzinlik Girişi", "4000 Cezaevi Girişindeki Garaj",
+  "1087 Chiliad Dağı Tepesinde", "2000 Şarap Bölgesi", "7153 Kilise İçinde En Arkada", "1017-1019 Arası Bina Girişi",
+  "1023-1025 Arasındaki Bina İçi Garaj Gibi Kapısı Var Oradan Gir", "Bulunmadı", "Bulunmadı", "Bulunmadı",
+  "Bulunmadı", "Bulunmadı"
+];
+
+    const customMarkers = customBlips.map(([y, x], i) =>
+      L.marker([y, x], { icon: blueIcon })
+        .bindPopup(`Hazine Blip ${i + 1}<br>${customDescriptions[i]}<br>X: ${x.toFixed(2)}<br>Y: ${y.toFixed(2)}`)
+    );
+
+    let currentCustomMarker = null;
+    let currentIndex = -1;
+
+    document.querySelectorAll('.sidebar img').forEach((img, index) => {
+      img.addEventListener('click', () => {
+        const marker = customMarkers[index];
+
+        if (currentIndex === index) {
+          if (currentCustomMarker) {
+            markerGroup.removeLayer(currentCustomMarker);
+            currentCustomMarker = null;
+            currentIndex = -1;
+          }
+          return;
+        }
+
+        if (currentCustomMarker) {
+          markerGroup.removeLayer(currentCustomMarker);
+        }
+
+        marker.addTo(markerGroup);
+        map.setView(marker.getLatLng(), 5);
+        marker.openPopup();
+        currentCustomMarker = marker;
+        currentIndex = index;
       });
     });
   </script>
