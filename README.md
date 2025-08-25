@@ -7,12 +7,12 @@ https://ezel666.github.io/pwuc-cc/
 | Ödül                                    | Şans (%) | Adet  |
 | --------------------------------------- | -------- | ----- |
 | Sandwich                                | 11.48    | 5     |
-| Tabanca Parçası Şarjör Namlu            | 0.15     | 1     |
-| Tabanca Parçası Şarjör İğne             | 0.15     | 1     |
-| Tabanca Parçası Şarjör Tetik            | 0.15     | 1     |
-| Tabanca Parçası Şarjör Mandalı          | 0.15     | 1     |
-| Tabanca Parçası Şarjör Çıkarıcı         | 0.15     | 1     |
-| Tabanca Parçası Şarjör Tetik Manivelası | 0.15     | 1     |
+| Tabanca Parçası Namlu                   | 0.15     | 1     |
+| Tabanca Parçası İğne                    | 0.15     | 1     |
+| Tabanca Parçası Tetik                   | 0.15     | 1     |
+| Tabanca Parçası Mandalı                 | 0.15     | 1     |
+| Tabanca Parçası Çıkarıcı                | 0.15     | 1     |
+| Tabanca Parçası Tetik Manivelası        | 0.15     | 1     |
 | Şişe Şarap                              | 3.82     | 2     |
 | Viski                                   | 3.82     | 1     |
 | Enerji İçeceği                          | 10.20    | 1     |
